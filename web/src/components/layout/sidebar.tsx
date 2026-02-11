@@ -28,10 +28,7 @@ export function Sidebar() {
               <ul className="space-y-1">
                 {group.items.map((item) => {
                   const Icon = item.icon;
-                  const isActive =
-                    item.href === "/"
-                      ? pathname === "/"
-                      : pathname.startsWith(item.href);
+                  const isActive = pathname.startsWith(item.href);
                   return (
                     <li key={item.href}>
                       <Link

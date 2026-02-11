@@ -5,10 +5,14 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
-import { Badge } from "@/components/ui/badge";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Loader2, FileEdit } from "lucide-react";
+import { PlannedFeatures } from "@/components/ui/planned-features";
+
+const PLANNED = [
+  { name: "多平台一键发布", description: "生成内容后直接发布到微信、微博、抖音等平台" },
+];
 
 export default function ContentPage() {
   const [topic, setTopic] = useState("");
@@ -95,13 +99,6 @@ export default function ContentPage() {
               </Select>
             </div>
 
-            <div className="flex gap-2">
-              <Badge variant="secondary">模拟模式</Badge>
-              <span className="text-xs text-muted-foreground">
-                基于模板生成，无需API密钥
-              </span>
-            </div>
-
             <Button
               onClick={handleGenerate}
               disabled={loading || !topic}
@@ -139,6 +136,8 @@ export default function ContentPage() {
           </CardContent>
         </Card>
       </div>
+
+      <PlannedFeatures features={PLANNED} />
     </div>
   );
 }

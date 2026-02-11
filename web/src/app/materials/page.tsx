@@ -8,6 +8,13 @@ import { Badge } from "@/components/ui/badge";
 import { Select } from "@/components/ui/select";
 import type { MaterialDetail } from "@/lib/types";
 import { Search, Video, ImageIcon, X } from "lucide-react";
+import { PlannedFeatures } from "@/components/ui/planned-features";
+
+const PLANNED = [
+  { name: "多渠道自动采集", description: "对接外部平台，自动采集交通安全相关素材入库" },
+  { name: "AI 智能分类标引", description: "AI 自动识别素材内容并标注分类标签" },
+  { name: "AI 语义搜索", description: "基于自然语言理解的智能素材检索" },
+];
 
 export default function MaterialsPage() {
   const [materials, setMaterials] = useState<MaterialDetail[]>([]);
@@ -142,6 +149,8 @@ export default function MaterialsPage() {
           ))}
         </div>
       )}
+
+      <PlannedFeatures features={PLANNED} />
 
       {/* Detail Dialog */}
       {selected && (

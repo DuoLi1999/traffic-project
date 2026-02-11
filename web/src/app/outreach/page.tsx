@@ -1,7 +1,13 @@
 import { getAccidentData } from "@/lib/data";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { PlannedFeatures } from "@/components/ui/planned-features";
 import { OutreachCharts } from "@/components/outreach/outreach-charts";
+import { OutreachReport } from "@/components/outreach/outreach-report";
+
+const PLANNED = [
+  { name: "社会化宣传管理", description: "针对企业、学校等社会单位的宣传方案生成与课件制作" },
+];
 
 export default function OutreachPage() {
   const accident = getAccidentData();
@@ -107,6 +113,11 @@ export default function OutreachPage() {
         weatherData={accident.weatherRelated}
         timeData={accident.timeDistribution}
       />
+
+      {/* AI Report Generation */}
+      <OutreachReport />
+
+      <PlannedFeatures features={PLANNED} />
     </div>
   );
 }

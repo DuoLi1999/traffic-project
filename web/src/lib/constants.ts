@@ -1,5 +1,4 @@
 import {
-  LayoutDashboard,
   BarChart3,
   FolderOpen,
   FileEdit,
@@ -12,10 +11,9 @@ import {
 
 export const NAV_ITEMS = [
   {
-    group: "数据监测",
+    group: "计划与素材",
     items: [
-      { label: "数据看板", href: "/", icon: LayoutDashboard },
-      { label: "传播分析", href: "/analytics", icon: BarChart3 },
+      { label: "计划管理", href: "/plans", icon: Calendar },
       { label: "素材库", href: "/materials", icon: FolderOpen },
     ],
   },
@@ -24,13 +22,18 @@ export const NAV_ITEMS = [
     items: [
       { label: "内容生产", href: "/content", icon: FileEdit },
       { label: "内容审核", href: "/content/review", icon: CheckSquare },
-      { label: "计划管理", href: "/plans", icon: Calendar },
     ],
   },
   {
-    group: "高级功能",
+    group: "监测与分析",
     items: [
+      { label: "传播分析", href: "/analytics", icon: BarChart3 },
       { label: "精准宣传", href: "/outreach", icon: Target },
+    ],
+  },
+  {
+    group: "响应与服务",
+    items: [
       { label: "应急响应", href: "/emergency", icon: AlertTriangle },
       { label: "咨询服务", href: "/qa", icon: MessageCircle },
     ],

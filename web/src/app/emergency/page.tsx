@@ -9,6 +9,12 @@ import { Select } from "@/components/ui/select";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Loader2, AlertTriangle } from "lucide-react";
+import { PlannedFeatures } from "@/components/ui/planned-features";
+
+const PLANNED = [
+  { name: "智能触发", description: "对接气象、交管等外部系统，自动触发应急响应流程" },
+  { name: "舆情处置辅助", description: "监测突发事件舆情，辅助生成应对话术与声明" },
+];
 
 export default function EmergencyPage() {
   const [eventType, setEventType] = useState("暴雨预警");
@@ -145,6 +151,8 @@ export default function EmergencyPage() {
           </CardContent>
         </Card>
       )}
+
+      <PlannedFeatures features={PLANNED} />
     </div>
   );
 }

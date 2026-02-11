@@ -13,6 +13,12 @@ import {
   XCircle,
   Shield,
 } from "lucide-react";
+import { PlannedFeatures } from "@/components/ui/planned-features";
+
+const PLANNED = [
+  { name: "线上多级审核", description: "支持人工审核流转，多级审批流程管理" },
+  { name: "审核知识库", description: "积累审核经验，自动学习优化审核规则" },
+];
 
 const STAGE_ICONS = {
   pass: <CheckCircle2 className="h-5 w-5 text-green-600" />,
@@ -191,6 +197,8 @@ export default function ReviewPage() {
           ))}
         </div>
       )}
+
+      <PlannedFeatures features={PLANNED} />
     </div>
   );
 }

@@ -9,6 +9,12 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { QA_QUICK_TOPICS } from "@/lib/constants";
 import { Send, MessageCircle, User, Bot } from "lucide-react";
+import { PlannedFeatures } from "@/components/ui/planned-features";
+
+const PLANNED = [
+  { name: "投诉建议智能分派", description: "自动分类群众投诉建议，智能分派至对应部门处理" },
+  { name: "民意数据分析", description: "汇总分析群众咨询热点，生成民意趋势报告" },
+];
 
 interface Message {
   id: string;
@@ -177,6 +183,8 @@ export default function QAPage() {
           </form>
         </div>
       </Card>
+
+      <PlannedFeatures features={PLANNED} />
     </div>
   );
 }
