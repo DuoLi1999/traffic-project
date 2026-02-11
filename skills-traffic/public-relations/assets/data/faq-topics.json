@@ -1,0 +1,31 @@
+{
+  "version": "1.0",
+  "description": "FAQ 话题索引",
+  "topics": [
+    {
+      "category": "驾驶证",
+      "keywords": ["驾照", "换证", "补办", "审验", "增驾", "记分"],
+      "guide": "references/drivers-license-guide.md"
+    },
+    {
+      "category": "机动车",
+      "keywords": ["年检", "上牌", "过户", "报废", "临牌"],
+      "guide": "references/vehicle-registration-guide.md"
+    },
+    {
+      "category": "违法处理",
+      "keywords": ["违章", "罚款", "扣分", "申诉"],
+      "guide": "references/violation-handling-guide.md"
+    },
+    {
+      "category": "事故处理",
+      "keywords": ["事故", "追尾", "报警", "理赔"],
+      "guide": "references/accident-handling-guide.md"
+    },
+    {
+      "category": "出行服务",
+      "keywords": ["限行", "路况", "ETC", "高速免费"],
+      "guide": "references/travel-services-guide.md"
+    }
+  ]
+}

@@ -1,186 +1,291 @@
 # 交通安全宣传教育智能化平台
 
-> 基于 OpenClaw Agent Skills 的本地验证原型（PoC）
+> 基于 AI Agent Skills 的交警宣传教育全链路智能化平台（PoC）
 
 ## 项目简介
 
-本项目将交警宣传教育工作的 8 大业务场景封装为可独立调用的 OpenClaw Agent Skills。用户通过自然语言对话驱动 AI Agent 完成"计划制定 → 素材管理 → 内容生产 → 审核发布 → 效果监测 → 精准投放"全链路工作。
+本项目将交警宣传教育工作的 8 大业务场景封装为 AI Agent Skills，配套 Web 管理界面，覆盖"**计划制定 → 素材管理 → 内容生产 → 审核发布 → 效果监测 → 精准投放**"全链路。
 
-## 技术架构
+后端支持两种 AI 调用方式，通过环境变量一键切换：
 
-| 组件 | 技术/工具 |
-|------|----------|
-| AI Agent 框架 | OpenClaw |
-| Skill 定义 | SKILL.md (YAML frontmatter + Markdown) |
-| AI 推理 | LLM (Claude / GPT / 本地模型) |
+| 模式 | 说明 |
+|------|------|
+| `SKILL_MODE=simulated` | 本地模拟（无需 API Key，默认） |
+| `SKILL_MODE=llm` | 直连 LLM API（Anthropic Claude） |
+| `SKILL_MODE=openclaw` | 通过 OpenClaw Gateway 调用 |
+
+---
+
+## 技术栈
+
+| 层 | 技术 |
+|----|------|
+| 前端 | Next.js 14 + React 18 + TailwindCSS |
+| 后端 API | Next.js API Routes |
+| AI 推理 | Anthropic Claude SDK / OpenClaw Gateway |
+| Skill 定义 | `.agents/skills/*/SKILL.md` |
 | 数据存储 | 本地 JSON 文件 |
-| 内容输出 | Markdown 文件 |
+| 图表可视化 | Recharts |
+| Markdown 渲染 | react-markdown + remark-gfm |
+
+---
+
+## 快速开始
+
+### 1. 克隆项目
+
+```bash
+git clone https://github.com/DuoLi1999/traffic-project.git
+cd traffic-project
+```
+
+### 2. 安装依赖
+
+```bash
+cd web
+npm install
+```
+
+### 3. 配置环境变量
+
+复制并编辑配置文件：
+
+```bash
+cp .env.local.example .env.local
+```
+
+根据你选用的模式编辑 `.env.local`：
+
+```env
+# 模式选择：simulated | llm | openclaw
+SKILL_MODE=simulated
+
+# ── 方案 A：直连 LLM API ──
+ANTHROPIC_BASE_URL=https://api.anthropic.com
+ANTHROPIC_API_KEY=sk-xxx
+# ANTHROPIC_MODEL=claude-sonnet-4-20250514  # 可选，指定模型
+
+# ── 方案 B：OpenClaw Gateway ──
+OPENCLAW_GATEWAY_URL=http://127.0.0.1:18789
+OPENCLAW_AUTH_TOKEN=
+```
+
+### 4. 启动开发服务
+
+```bash
+npm run dev
+```
+
+访问 http://localhost:3000
+
+---
 
 ## 项目结构
 
 ```
 traffic-project/
-├── skills/                          # 8 个 OpenClaw Skills
-│   ├── content-producer/SKILL.md    # 内容生产（P0）
-│   ├── media-hub/SKILL.md           # 素材中枢（P0）
-│   ├── content-reviewer/SKILL.md    # 内容审核（P0）
-│   ├── plan-manager/SKILL.md        # 计划管理（P1）
-│   ├── analytics/SKILL.md           # 效果监测（P1）
-│   ├── precision-outreach/SKILL.md  # 精准宣传（P2）
-│   ├── emergency-response/SKILL.md  # 应急响应（P2）
-│   └── public-relations/SKILL.md    # 公共关系（P2）
-├── data/                            # 模拟数据
-│   ├── materials/                   # 素材库（20条元数据）
-│   ├── analytics/                   # 传播数据（3个平台）
-│   ├── reviews/                     # 审核记录（运行时生成）
-│   └── accident-data/               # 事故数据
-├── output/                          # AI 生成产出物
-│   ├── content/                     # 文案
-│   ├── plans/                       # 宣传计划
-│   ├── reports/                     # 分析报告
-│   ├── posters/                     # 海报方案
-│   └── scripts/                     # 视频脚本
-├── templates/                       # 模板文件
-│   ├── content-wechat.md            # 微信推文模板
-│   ├── content-weibo.md             # 微博模板
-│   ├── content-douyin.md            # 抖音模板
-│   ├── review-checklist.md          # 审核检查清单
-│   ├── plan-monthly.md              # 月度计划模板
-│   └── report-monthly.md           # 月度报告模板
-├── task-plan.md                     # 开发任务计划与决策记录
-├── test-results.md                  # 验证测试结果
-└── README.md                        # 本文件
+├── web/                                # Next.js Web 应用
+│   ├── src/
+│   │   ├── app/                        # 页面和 API 路由
+│   │   │   ├── api/skills/             #   7 个 Skill API 端点
+│   │   │   ├── api/data/               #   数据查询 API
+│   │   │   ├── plans/                  #   计划管理页
+│   │   │   ├── materials/              #   素材库页
+│   │   │   ├── content/                #   内容生产页
+│   │   │   ├── content/review/         #   内容审核页
+│   │   │   ├── analytics/              #   传播分析页
+│   │   │   ├── outreach/               #   精准宣传页
+│   │   │   ├── emergency/              #   应急响应页
+│   │   │   └── qa/                     #   咨询服务页
+│   │   ├── components/                 # UI 组件
+│   │   └── lib/                        # 核心逻辑
+│   │       ├── skill-router.ts         #   Skill 调用路由（统一入口）
+│   │       ├── llm.ts                  #   方案 A：Anthropic SDK 封装
+│   │       ├── openclaw.ts             #   方案 B：OpenClaw HTTP 客户端
+│   │       ├── skills.ts              #   模拟模式实现
+│   │       ├── data.ts                 #   数据加载层
+│   │       └── types.ts                #   TypeScript 类型定义
+│   └── .env.local                      # 环境变量配置
+│
+├── .agents/skills/                     # 8 个 AI Skill 定义
+│   ├── content-producer/SKILL.md       #   多平台内容生产
+│   ├── content-reviewer/SKILL.md       #   三级内容审核
+│   ├── plan-manager/SKILL.md           #   月度计划制定
+│   ├── analytics/SKILL.md              #   传播效果分析
+│   ├── precision-outreach/SKILL.md     #   精准宣传方案
+│   ├── emergency-response/SKILL.md     #   应急宣传响应
+│   ├── public-relations/SKILL.md       #   交通业务咨询
+│   └── media-hub/SKILL.md              #   素材库管理
+│
+├── templates/                          # 内容模板
+│   ├── content-wechat.md               #   微信推文模板
+│   ├── content-weibo.md                #   微博内容模板
+│   ├── content-douyin.md               #   抖音脚本模板
+│   ├── review-checklist.md             #   审核检查清单
+│   ├── plan-monthly.md                 #   月度计划模板
+│   └── report-monthly.md              #   月度报告模板
+│
+├── data/                               # 业务数据（JSON）
+│   ├── analytics/                      #   三平台传播数据
+│   ├── accident-data/                  #   事故统计数据
+│   └── materials/                      #   素材元数据（20条）
+│
+└── docs/                               # 技术文档
+    └── skill-invocation-comparison.md  #   两种调用方案对比
 ```
 
-## Skills 概览
+---
 
-### P0 核心 Skills
+## 功能模块
 
-| Skill | 功能 | 触发示例 |
-|-------|------|---------|
-| **content-producer** | 生成微信/微博/抖音多平台文案、海报方案、视频脚本 | "写一篇关于酒驾的宣传内容" |
-| **media-hub** | 自然语言搜索素材库、为新素材自动标引 | "找雨天追尾事故的视频素材" |
-| **content-reviewer** | 三级审核（初审→复审→终审），检查合规性 | "审核这篇文案" |
+### 计划与素材
 
-### P1 扩展 Skills
+| 模块 | 页面 | 对应 Skill | 说明 |
+|------|------|-----------|------|
+| 计划管理 | `/plans` | plan-manager | 输入月份和重点方向，AI 生成含周度安排的月度宣传计划 |
+| 素材库 | `/materials` | media-hub | 按关键词/类型搜索素材，查看素材详情 |
 
-| Skill | 功能 | 触发示例 |
-|-------|------|---------|
-| **plan-manager** | 生成月度宣传计划，结合节假日和安全风险 | "制定3月份的宣传计划" |
-| **analytics** | 基于传播数据生成月度效果分析报告 | "生成1月的传播效果分析报告" |
+### 内容工作流
 
-### P2 高级 Skills
+| 模块 | 页面 | 对应 Skill | 说明 |
+|------|------|-----------|------|
+| 内容生产 | `/content` | content-producer | 选平台、主题、风格，AI 生成微信/微博/抖音文案 |
+| 内容审核 | `/content/review` | content-reviewer | 粘贴内容，AI 执行初审→复审→终审三级审核 |
 
-| Skill | 功能 | 触发示例 |
-|-------|------|---------|
-| **precision-outreach** | 基于事故数据识别高风险区域，生成定向宣传方案 | "分析高风险区域，制定精准宣传方案" |
-| **emergency-response** | 根据预警信息生成应急宣传内容包 | "发布暴雨预警应急宣传" |
-| **public-relations** | 模拟智能客服应答交通业务咨询 | "驾照快过期了怎么换证" |
+### 监测与分析
 
-## 使用方法
+| 模块 | 页面 | 对应 Skill | 说明 |
+|------|------|-----------|------|
+| 传播分析 | `/analytics` | analytics | 展示三平台数据看板 + AI 生成月度分析报告 |
+| 精准宣传 | `/outreach` | precision-outreach | 基于事故数据识别高风险区域/人群，生成定向方案 |
 
-### 前置条件
+### 响应与服务
 
-1. 安装 OpenClaw 并配置 LLM API Key
-2. 将本项目目录作为 OpenClaw 工作区
+| 模块 | 页面 | 对应 Skill | 说明 |
+|------|------|-----------|------|
+| 应急响应 | `/emergency` | emergency-response | 输入预警信息，AI 生成三平台应急宣传内容包 |
+| 咨询服务 | `/qa` | public-relations | 交通业务智能问答（驾照、酒驾、年检、事故等） |
 
-### 使用示例
+---
 
-#### 示例 1：生成多平台宣传内容
+## 两种 AI 调用方案
 
-```
-用户: 帮我写一篇关于春运期间高速公路安全的宣传内容
+### 方案 A：直连 LLM API（`SKILL_MODE=llm`）
 
-Agent 自动执行:
-1. 识别意图 → 激活 content-producer Skill
-2. 读取微信/微博/抖音模板
-3. 生成三个平台的文案
-4. 保存到 output/content/ 目录
-5. 展示生成结果
-```
-
-#### 示例 2：搜索素材
+Web 后端直接调用 Anthropic Claude API，自行管理 Prompt 拼装：
 
 ```
-用户: 找一些雨天高速公路事故的视频素材
-
-Agent 自动执行:
-1. 识别意图 → 激活 media-hub Skill
-2. 读取素材索引
-3. 语义匹配"雨天""高速公路""事故""视频"
-4. 返回匹配的素材列表和详细信息
+前端 → API Route → skill-router.ts
+                      ├─ buildUserMessage()   → 参数转自然语言
+                      └─ llm.ts
+                           ├─ readSkillPrompt()  → SKILL.md 作为 system prompt
+                           ├─ buildContext()      → 注入模板 + 数据到 system prompt
+                           └─ Anthropic SDK       → 调用 Claude API
 ```
 
-#### 示例 3：审核文案
+**特点**：部署简单，Prompt 控制精细，只需一个 API Key 即可运行。
+
+### 方案 B：OpenClaw Gateway（`SKILL_MODE=openclaw`）
+
+Web 后端将消息发给本地 OpenClaw 实例，由 Gateway 自动匹配 Skill：
 
 ```
-用户: 审核一下刚才生成的微信推文
-
-Agent 自动执行:
-1. 识别意图 → 激活 content-reviewer Skill
-2. 读取审核检查清单
-3. 依次执行初审、复审、终审
-4. 输出审核报告
-5. 保存审核记录到 data/reviews/
+前端 → API Route → skill-router.ts
+                      ├─ buildUserMessage()   → 参数转自然语言 + 嵌入数据
+                      └─ openclaw.ts
+                           └─ HTTP POST → OpenClaw Gateway (localhost:18789)
+                                            ├─ 自动匹配 SKILL.md
+                                            ├─ 拼装 system prompt
+                                            └─ 调用配置好的 LLM
 ```
 
-#### 示例 4：完整链路（计划 → 素材 → 生产 → 审核）
+**特点**：Skill 解耦，新增 Skill 只需编辑 SKILL.md；支持多模型切换和 Agent 高级能力。
 
-```
-用户: 制定2月份宣传计划
-Agent: → plan-manager 生成月度计划
+> 详细对比见 [`docs/skill-invocation-comparison.md`](docs/skill-invocation-comparison.md)
 
-用户: 根据计划第一个主题找相关素材
-Agent: → media-hub 搜索匹配素材
+---
 
-用户: 根据这些素材写一篇微信推文
-Agent: → content-producer 生成文案
-
-用户: 审核这篇文案
-Agent: → content-reviewer 三级审核
-```
-
-#### 示例 5：应急响应
-
-```
-用户: 发布暴雨橙色预警应急宣传，影响G15和G50高速
-
-Agent 自动执行:
-1. 激活 emergency-response Skill
-2. 生成安全提示（3平台版本）
-3. 生成预警通报
-4. 生成绕行建议
-5. 打包保存应急内容包
-```
-
-#### 示例 6：业务咨询
-
-```
-用户: 驾照快过期了怎么换证？
-
-Agent 自动执行:
-1. 激活 public-relations Skill
-2. 匹配驾驶证换证知识
-3. 输出材料清单、办理流程、注意事项
-```
-
-## 模拟数据说明
+## 数据说明
 
 | 数据类型 | 文件 | 说明 |
 |---------|------|------|
-| 素材元数据 | `data/materials/items/mat-001~020.json` | 20条模拟素材（14视频+6图片） |
-| 素材索引 | `data/materials/index.json` | 全部素材概要 |
-| 微信传播数据 | `data/analytics/wechat-202601.json` | 2026年1月微信数据 |
-| 微博传播数据 | `data/analytics/weibo-202601.json` | 2026年1月微博数据 |
-| 抖音传播数据 | `data/analytics/douyin-202601.json` | 2026年1月抖音数据 |
-| 事故数据 | `data/accident-data/2025-summary.json` | 2025年度事故汇总 |
+| 微信传播数据 | `data/analytics/wechat-202601.json` | 2026年1月微信公众号运营数据 |
+| 微博传播数据 | `data/analytics/weibo-202601.json` | 2026年1月微博运营数据 |
+| 抖音传播数据 | `data/analytics/douyin-202601.json` | 2026年1月抖音运营数据 |
+| 事故统计 | `data/accident-data/2025-summary.json` | 2025年度交通事故汇总 |
+| 素材索引 | `data/materials/index.json` | 20 条素材概要 |
+| 素材详情 | `data/materials/items/mat-001~020.json` | 各素材的完整元数据 |
 
-## 文件说明
+---
 
-| 文件 | 说明 |
+## API 接口
+
+### Skill 调用
+
+| 端点 | 方法 | 参数 | 说明 |
+|------|------|------|------|
+| `/api/skills/content-producer` | POST | `topic`, `platform`, `contentType?`, `style?` | 生成宣传内容 |
+| `/api/skills/content-reviewer` | POST | `content`, `platform?` | 三级内容审核 |
+| `/api/skills/plan-manager` | POST | `month`, `focus?` | 生成月度计划 |
+| `/api/skills/analytics` | POST | 无 | 生成传播分析报告 |
+| `/api/skills/precision-outreach` | POST | 无 | 生成精准宣传方案 |
+| `/api/skills/emergency-response` | POST | `eventType`, `alertLevel`, `area`, `description` | 生成应急内容包 |
+| `/api/skills/public-relations` | POST | `question` | 交通业务咨询 |
+
+### 数据查询
+
+| 端点 | 方法 | 说明 |
+|------|------|------|
+| `/api/data/analytics?platform=xxx` | GET | 查询平台传播数据 |
+| `/api/data/accident` | GET | 查询事故统计数据 |
+| `/api/data/materials?q=xxx&type=xxx` | GET | 搜索素材 |
+| `/api/data/materials/[id]` | GET | 查询素材详情 |
+
+---
+
+## 部署指南
+
+### 方案 A 部署（推荐用于演示/个人使用）
+
+```bash
+# 1. 配置 .env.local
+SKILL_MODE=llm
+ANTHROPIC_BASE_URL=https://api.anthropic.com  # 或中转地址
+ANTHROPIC_API_KEY=sk-xxx
+
+# 2. 构建并启动
+cd web
+npm run build
+npm start
+```
+
+### 方案 B 部署（推荐用于正式环境）
+
+```bash
+# 1. 安装并启动 OpenClaw
+# 参考 OpenClaw 官方文档安装
+
+# 2. 启用 Gateway 的 chatCompletions 端点
+# 编辑 ~/.openclaw/openclaw.json，确保：
+# gateway.http.endpoints.chatCompletions.enabled = true
+
+# 3. 配置 .env.local
+SKILL_MODE=openclaw
+OPENCLAW_GATEWAY_URL=http://127.0.0.1:18789
+OPENCLAW_AUTH_TOKEN=<从 openclaw.json 中获取>
+
+# 4. 构建并启动
+cd web
+npm run build
+npm start
+```
+
+---
+
+## 相关文档
+
+| 文档 | 说明 |
 |------|------|
-| `task-plan.md` | 开发任务计划、决策记录、障碍记录 |
-| `test-results.md` | 各 Skill 的验证测试结果 |
-| `PRD-交通安全宣传教育智能化平台.md` | 产品需求文档 |
-| `开发计划-交通安全宣传教育智能化平台.md` | 开发计划 |
-| `交通安全宣传教育工作智能化应用场景.md` | 原始需求文档 |
+| [`交通安全宣传教育工作智能化应用场景.md`](交通安全宣传教育工作智能化应用场景.md) | 原始需求文档 |
+| [`PRD-交通安全宣传教育智能化平台.md`](PRD-交通安全宣传教育智能化平台.md) | 产品需求文档 |
+| [`docs/skill-invocation-comparison.md`](docs/skill-invocation-comparison.md) | Skill 调用方案对比 |

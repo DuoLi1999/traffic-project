@@ -1,0 +1,29 @@
+{
+  "id": "review-",
+  "contentFile": "",
+  "stages": [
+    {
+      "stage": "ai_first_review",
+      "stageName": "初审：格式与敏感词",
+      "result": "",
+      "issues": [],
+      "timestamp": ""
+    },
+    {
+      "stage": "ai_quality_review",
+      "stageName": "复审：内容质量",
+      "result": "",
+      "issues": [],
+      "timestamp": ""
+    },
+    {
+      "stage": "ai_compliance_review",
+      "stageName": "终审：政策合规",
+      "result": "",
+      "issues": [],
+      "timestamp": ""
+    }
+  ],
+  "finalResult": "",
+  "summary": ""
+}
