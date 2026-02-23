@@ -14,6 +14,7 @@ import {
   Radio,
   Phone,
   Settings,
+  Database,
 } from "lucide-react";
 
 export const NAV_ITEMS = [
@@ -59,6 +60,7 @@ export const NAV_ITEMS = [
   {
     group: "系统管理",
     items: [
+      { label: "数据管理", href: "/data-management", icon: Database },
       { label: "权限管理", href: "/admin", icon: Settings },
     ],
   },

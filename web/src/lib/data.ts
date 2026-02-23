@@ -5,6 +5,8 @@ import type {
   MaterialIndex,
   MaterialDetail,
   PlatformAnalytics,
+  KBIndex,
+  KBEntry,
 } from "./types";
 
 const DATA_ROOT = path.join(process.cwd(), "..", "data");
@@ -16,7 +18,20 @@ function readJSON<T>(filePath: string): T {
 }
 
 export function getAccidentData(): AccidentData {
-  return readJSON<AccidentData>("accident-data/2025-summary.json");
+  // Prefer real aggregated data, fall back to mock
+  try {
+    return readJSON<AccidentData>("accident-data/real-summary.json");
+  } catch {
+    return readJSON<AccidentData>("accident-data/2025-summary.json");
+  }
+}
+
+export function getAccidentDataByYear(year: number): AccidentData | null {
+  try {
+    return readJSON<AccidentData>(`accident-data/by-year/${year}.json`);
+  } catch {
+    return null;
+  }
 }
 
 export function getMaterialIndex(): MaterialIndex {
@@ -80,4 +95,41 @@ export function getTemplate(name: string): string {
   } catch {
     return "";
   }
+}
+
+// ── Knowledge base ──
+
+export function getKBIndex(): KBIndex | null {
+  try {
+    return readJSON<KBIndex>("knowledge-base/index.json");
+  } catch {
+    return null;
+  }
+}
+
+export function getKBEntry(id: string): KBEntry | null {
+  try {
+    return readJSON<KBEntry>(`knowledge-base/entries/${id}.json`);
+  } catch {
+    return null;
+  }
+}
+
+export function searchKB(query: string, category?: KBEntry["category"]): KBEntry[] {
+  const index = getKBIndex();
+  if (!index) return [];
+
+  const q = query.toLowerCase();
+  let matched = index.entries.filter((e) => {
+    if (category && e.category !== category) return false;
+    return (
+      e.title.toLowerCase().includes(q) ||
+      e.tags.some((t) => t.toLowerCase().includes(q))
+    );
+  });
+
+  return matched
+    .slice(0, 5)
+    .map((e) => getKBEntry(e.id))
+    .filter((e): e is KBEntry => e !== null);
 }

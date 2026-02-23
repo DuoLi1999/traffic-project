@@ -3,3 +3,11 @@
 __pycache__/
 output/
 openclaw-deploy/
+
+# Large binary data (not for git)
+real-data/
+
+# Runtime state
+store/
+data/.etl-status.json
+data/.etl-running

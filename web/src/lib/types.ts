@@ -323,10 +323,62 @@ export interface ComplaintData {
   trendByMonth: { month: string; count: number }[];
 }
 
+// Data management types
+export interface DataSourceStatus {
+  name: string;
+  category: string;
+  recordCount: number;
+  fileCount: number;
+  sizeBytes: number;
+  lastUpdated: string | null;
+  status: "ready" | "empty" | "error";
+}
+
+export interface ETLStatus {
+  lastRun: string | null;
+  status: "idle" | "running" | "success" | "error";
+  log: string;
+}
+
+export interface DataOverviewResponse {
+  accidentRecords: number;
+  kbEntries: number;
+  analyticsFiles: number;
+  diskUsageBytes: number;
+  sources: DataSourceStatus[];
+  etl: ETLStatus;
+}
+
+export interface FileItem {
+  name: string;
+  sizeBytes: number;
+  modifiedAt: string;
+  path: string;
+}
+
 // Chat types
 export interface ChatMessage {
   id: string;
   role: "user" | "assistant";
   content: string;
   timestamp: Date;
+}
+
+// Knowledge base types
+export interface KBEntry {
+  id: string;
+  title: string;
+  category: "work-summary" | "work-plan" | "scheme" | "opinion-report" | "campaign";
+  source: string;
+  date: string;
+  content: string;
+  summary: string;
+  tags: string[];
+}
+
+export interface KBIndex {
+  version: string;
+  lastUpdated: string;
+  totalCount: number;
+  entries: Array<{ id: string; title: string; category: string; tags: string[] }>;
 }

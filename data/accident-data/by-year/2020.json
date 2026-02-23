@@ -1,0 +1,295 @@
+{
+  "period": "2020年",
+  "generatedDate": "2026-02-23",
+  "region": "泰安高速公路辖区",
+  "overview": {
+    "totalAccidents": 1518,
+    "totalFatalities": 18,
+    "totalInjuries": 171,
+    "totalPropertyDamage": 92,
+    "yoyAccidentChange": 0.1261,
+    "yoyFatalityChange": 0
+  },
+  "monthlyTrend": [
+    {
+      "month": 1,
+      "accidents": 73,
+      "fatalities": 3,
+      "injuries": 5
+    },
+    {
+      "month": 2,
+      "accidents": 20,
+      "fatalities": 2,
+      "injuries": 0
+    },
+    {
+      "month": 3,
+      "accidents": 125,
+      "fatalities": 2,
+      "injuries": 17
+    },
+    {
+      "month": 4,
+      "accidents": 153,
+      "fatalities": 2,
+      "injuries": 27
+    },
+    {
+      "month": 5,
+      "accidents": 94,
+      "fatalities": 0,
+      "injuries": 12
+    },
+    {
+      "month": 6,
+      "accidents": 67,
+      "fatalities": 0,
+      "injuries": 11
+    },
+    {
+      "month": 7,
+      "accidents": 92,
+      "fatalities": 0,
+      "injuries": 11
+    },
+    {
+      "month": 8,
+      "accidents": 192,
+      "fatalities": 4,
+      "injuries": 17
+    },
+    {
+      "month": 9,
+      "accidents": 144,
+      "fatalities": 1,
+      "injuries": 11
+    },
+    {
+      "month": 10,
+      "accidents": 226,
+      "fatalities": 0,
+      "injuries": 26
+    },
+    {
+      "month": 11,
+      "accidents": 178,
+      "fatalities": 4,
+      "injuries": 11
+    },
+    {
+      "month": 12,
+      "accidents": 154,
+      "fatalities": 0,
+      "injuries": 23
+    }
+  ],
+  "byAccidentType": [
+    {
+      "type": "简易事故",
+      "count": 1492,
+      "percentage": 0.9829,
+      "fatalities": 0
+    },
+    {
+      "type": "一般事故",
+      "count": 26,
+      "percentage": 0.0171,
+      "fatalities": 18
+    }
+  ],
+  "byViolationType": [
+    {
+      "type": "未保持安全距离",
+      "count": 791,
+      "percentage": 0.5211,
+      "fatalities": 10
+    },
+    {
+      "type": "未记录",
+      "count": 517,
+      "percentage": 0.3406
+    },
+    {
+      "type": "违规变道",
+      "count": 113,
+      "percentage": 0.0744
+    },
+    {
+      "type": "驾车时有其他妨碍安全驾驶的行为的",
+      "count": 58,
+      "percentage": 0.0382
+    },
+    {
+      "type": "违规倒车",
+      "count": 10,
+      "percentage": 0.0066,
+      "fatalities": 1
+    },
+    {
+      "type": "违规停车",
+      "count": 5,
+      "percentage": 0.0033
+    },
+    {
+      "type": "不按规定车道行驶",
+      "count": 4,
+      "percentage": 0.0026
+    },
+    {
+      "type": "在高速公路上不按规定超车的",
+      "count": 4,
+      "percentage": 0.0026
+    },
+    {
+      "type": "从前车右侧超车的",
+      "count": 2,
+      "percentage": 0.0013,
+      "fatalities": 4
+    },
+    {
+      "type": "行人违规",
+      "count": 2,
+      "percentage": 0.0013,
+      "fatalities": 1
+    },
+    {
+      "type": "道路缺陷",
+      "count": 1,
+      "percentage": 0.0007
+    },
+    {
+      "type": "驾驶拼装的机动车上道路行驶的",
+      "count": 1,
+      "percentage": 0.0007
+    },
+    {
+      "type": "未设置道路安全设施",
+      "count": 1,
+      "percentage": 0.0007
+    },
+    {
+      "type": "在高速公路上穿越中央分隔带掉头的",
+      "count": 1,
+      "percentage": 0.0007
+    },
+    {
+      "type": "机动车在高速公路上发生故障或事故后，不按…",
+      "count": 1,
+      "percentage": 0.0007
+    }
+  ],
+  "highRiskAreas": [
+    {
+      "location": "G35",
+      "type": "高速公路",
+      "accidents": 601,
+      "fatalities": 0,
+      "mainCause": "未保持安全距离",
+      "riskLevel": "极高",
+      "seasonalPattern": "全年"
+    },
+    {
+      "location": "G3",
+      "type": "高速公路",
+      "accidents": 499,
+      "fatalities": 0,
+      "mainCause": "未保持安全距离",
+      "riskLevel": "高",
+      "seasonalPattern": "全年"
+    },
+    {
+      "location": "G2",
+      "type": "高速公路",
+      "accidents": 159,
+      "fatalities": 0,
+      "mainCause": "未记录",
+      "riskLevel": "中",
+      "seasonalPattern": "全年"
+    },
+    {
+      "location": "S31",
+      "type": "高速公路",
+      "accidents": 84,
+      "fatalities": 0,
+      "mainCause": "未记录",
+      "riskLevel": "中",
+      "seasonalPattern": "全年"
+    },
+    {
+      "location": "G22",
+      "type": "高速公路",
+      "accidents": 45,
+      "fatalities": 0,
+      "mainCause": "未记录",
+      "riskLevel": "低",
+      "seasonalPattern": "全年"
+    },
+    {
+      "location": "S26",
+      "type": "高速公路",
+      "accidents": 43,
+      "fatalities": 0,
+      "mainCause": "未记录",
+      "riskLevel": "低",
+      "seasonalPattern": "全年"
+    },
+    {
+      "location": "S33",
+      "type": "高速公路",
+      "accidents": 11,
+      "fatalities": 0,
+      "mainCause": "未保持安全距离",
+      "riskLevel": "低",
+      "seasonalPattern": "全年"
+    },
+    {
+      "location": "S30",
+      "type": "高速公路",
+      "accidents": 11,
+      "fatalities": 0,
+      "mainCause": "未记录",
+      "riskLevel": "低",
+      "seasonalPattern": "全年"
+    }
+  ],
+  "highRiskGroups": [],
+  "weatherRelated": [],
+  "timeDistribution": [
+    {
+      "period": "下午(14-17时)",
+      "accidents": 326,
+      "fatalities": 1
+    },
+    {
+      "period": "午间(11-14时)",
+      "accidents": 294,
+      "fatalities": 2
+    },
+    {
+      "period": "上午(9-11时)",
+      "accidents": 232,
+      "fatalities": 0
+    },
+    {
+      "period": "晚高峰(17-20时)",
+      "accidents": 227,
+      "fatalities": 1
+    },
+    {
+      "period": "早高峰(6-9时)",
+      "accidents": 159,
+      "fatalities": 4
+    },
+    {
+      "period": "夜间(20-24时)",
+      "accidents": 145,
+      "fatalities": 1
+    },
+    {
+      "period": "凌晨(0-6时)",
+      "accidents": 135,
+      "fatalities": 9
+    }
+  ]
+}

@@ -1,0 +1,156 @@
+{
+  "period": "2013年",
+  "generatedDate": "2026-02-23",
+  "region": "泰安高速公路辖区",
+  "overview": {
+    "totalAccidents": 16,
+    "totalFatalities": 16,
+    "totalInjuries": 19,
+    "totalPropertyDamage": 89,
+    "yoyAccidentChange": 0,
+    "yoyFatalityChange": 0
+  },
+  "monthlyTrend": [
+    {
+      "month": 1,
+      "accidents": 1,
+      "fatalities": 1,
+      "injuries": 3
+    },
+    {
+      "month": 2,
+      "accidents": 1,
+      "fatalities": 1,
+      "injuries": 0
+    },
+    {
+      "month": 3,
+      "accidents": 2,
+      "fatalities": 3,
+      "injuries": 0
+    },
+    {
+      "month": 4,
+      "accidents": 1,
+      "fatalities": 1,
+      "injuries": 0
+    },
+    {
+      "month": 5,
+      "accidents": 1,
+      "fatalities": 2,
+      "injuries": 0
+    },
+    {
+      "month": 6,
+      "accidents": 1,
+      "fatalities": 0,
+      "injuries": 1
+    },
+    {
+      "month": 7,
+      "accidents": 1,
+      "fatalities": 1,
+      "injuries": 3
+    },
+    {
+      "month": 8,
+      "accidents": 3,
+      "fatalities": 3,
+      "injuries": 7
+    },
+    {
+      "month": 9,
+      "accidents": 0,
+      "fatalities": 0,
+      "injuries": 0
+    },
+    {
+      "month": 10,
+      "accidents": 1,
+      "fatalities": 1,
+      "injuries": 1
+    },
+    {
+      "month": 11,
+      "accidents": 1,
+      "fatalities": 0,
+      "injuries": 1
+    },
+    {
+      "month": 12,
+      "accidents": 3,
+      "fatalities": 3,
+      "injuries": 3
+    }
+  ],
+  "byAccidentType": [
+    {
+      "type": "一般事故",
+      "count": 16,
+      "percentage": 1,
+      "fatalities": 16
+    }
+  ],
+  "byViolationType": [
+    {
+      "type": "其他",
+      "count": 6,
+      "percentage": 0.375,
+      "fatalities": 7
+    },
+    {
+      "type": "未保持安全距离",
+      "count": 6,
+      "percentage": 0.375,
+      "fatalities": 5
+    },
+    {
+      "type": "行人违规",
+      "count": 2,
+      "percentage": 0.125,
+      "fatalities": 2
+    },
+    {
+      "type": "操作不当",
+      "count": 2,
+      "percentage": 0.125,
+      "fatalities": 2
+    }
+  ],
+  "highRiskAreas": [],
+  "highRiskGroups": [],
+  "weatherRelated": [],
+  "timeDistribution": [
+    {
+      "period": "凌晨(0-6时)",
+      "accidents": 5,
+      "fatalities": 4
+    },
+    {
+      "period": "晚高峰(17-20时)",
+      "accidents": 3,
+      "fatalities": 3
+    },
+    {
+      "period": "下午(14-17时)",
+      "accidents": 2,
+      "fatalities": 3
+    },
+    {
+      "period": "早高峰(6-9时)",
+      "accidents": 2,
+      "fatalities": 3
+    },
+    {
+      "period": "夜间(20-24时)",
+      "accidents": 2,
+      "fatalities": 3
+    },
+    {
+      "period": "午间(11-14时)",
+      "accidents": 2,
+      "fatalities": 0
+    }
+  ]
+}

@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "etl": "NODE_PATH=./node_modules tsx ../scripts/etl/run.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.74.0",
@@ -23,14 +24,19 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
+    "@types/cheerio": "^0.22.35",
     "@types/node": "^20",
     "@types/react": "^18.3.28",
     "@types/react-dom": "^18.3.7",
     "autoprefixer": "^10.4.24",
+    "cheerio": "^1.2.0",
     "eslint": "^8.57.1",
     "eslint-config-next": "^14.2.35",
+    "iconv-lite": "^0.7.2",
+    "mammoth": "^1.11.0",
     "postcss": "^8.5.6",
     "tailwindcss": "^3.4.19",
+    "tsx": "^4.21.0",
     "typescript": "^5"
   }
 }

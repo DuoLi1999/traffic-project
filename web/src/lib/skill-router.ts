@@ -11,8 +11,8 @@ import {
 } from "./skills";
 import { callLLM } from "./llm";
 import { callOpenClaw } from "./openclaw";
-import { getAllAnalytics, getAccidentData } from "./data";
-import type { ReviewResult, PlatformAnalytics, AccidentData } from "./types";
+import { getAllAnalytics, getAccidentData, searchKB } from "./data";
+import type { ReviewResult, PlatformAnalytics, AccidentData, KBEntry } from "./types";
 
 type SkillMode = "simulated" | "llm" | "openclaw";
 
@@ -117,6 +117,26 @@ function serializeAccidentData(accident: AccidentData): string {
   return lines.join("\n");
 }
 
+// ── Knowledge base & truncation helpers ──
+
+function serializeKBEntries(entries: KBEntry[], maxCharsPerEntry = 500): string {
+  if (entries.length === 0) return "";
+  return entries
+    .slice(0, 2)
+    .map((e) => {
+      const text = e.content.length > maxCharsPerEntry
+        ? e.content.slice(0, maxCharsPerEntry) + "…"
+        : e.content;
+      return `【${e.title}】(${e.category}, ${e.date})\n${text}`;
+    })
+    .join("\n\n");
+}
+
+function truncateAccidentSummary(accident: AccidentData, maxChars = 800): string {
+  const full = serializeAccidentData(accident);
+  return full.length > maxChars ? full.slice(0, maxChars) + "\n…（数据已截断）" : full;
+}
+
 // ── User message construction ──
 
 const PLATFORM_NAMES: Record<string, string> = {
@@ -141,6 +161,20 @@ function buildUserMessage(
       const contentType = CONTENT_TYPE_NAMES[params.contentType as string] || params.contentType || "推文";
       const style = params.style || "温馨提醒";
 
+      // Inject real data context
+      let dataContext = "";
+      try {
+        const accident = getAccidentData();
+        dataContext += `\n\n以下是真实事故数据供参考（请基于这些数据撰写内容）：\n${truncateAccidentSummary(accident)}`;
+      } catch { /* data not available */ }
+      try {
+        const topic = params.topic as string;
+        const kbEntries = searchKB(topic);
+        if (kbEntries.length > 0) {
+          dataContext += `\n\n以下是相关知识库参考资料：\n${serializeKBEntries(kbEntries)}`;
+        }
+      } catch { /* kb not available */ }
+
       return `请为我生成一篇交通安全宣传内容。
 
 主题：${params.topic}
@@ -153,7 +187,7 @@ function buildUserMessage(
 - 在合适位置标注 [配图建议: 描述]
 - 内容要有交警宣传的专业性，同时保持可读性
 - 引用数据请标注"据统计""数据显示"等，不编造具体数字
-- 案例描述必须脱敏处理`;
+- 案例描述必须脱敏处理${dataContext}`;
     }
 
     case "content-reviewer": {
@@ -224,8 +258,16 @@ ${params.content}
 
       try {
         const accident = getAccidentData();
-        dataContext += `\n\n以下是2025年度事故数据摘要，请据此识别${month}月的安全风险重点：\n\n${serializeAccidentData(accident)}`;
+        dataContext += `\n\n以下是历史事故趋势数据，请据此识别${month}月的安全风险重点：\n\n${truncateAccidentSummary(accident)}`;
       } catch { /* data not available */ }
+
+      // Inject historical plan references from knowledge base
+      try {
+        const planEntries = searchKB("计划", "work-plan");
+        if (planEntries.length > 0) {
+          dataContext += `\n\n以下是往年宣传计划参考：\n${serializeKBEntries(planEntries)}`;
+        }
+      } catch { /* kb not available */ }
 
       const focusLine = focus
         ? `\n- 本月重点方向：${focus}`
@@ -288,7 +330,29 @@ ${dataContent}`;
 ${accidentContent}`;
     }
 
-    case "emergency-response":
+    case "emergency-response": {
+      // Inject high-risk area data for the affected region
+      let areaContext = "";
+      try {
+        const accident = getAccidentData();
+        const area = params.area as string;
+        const relevantAreas = accident.highRiskAreas.filter(
+          (a) => area && (area.includes(a.location) || a.location.includes(area.replace(/高速|公路|路段/g, "")))
+        );
+        if (relevantAreas.length > 0) {
+          const lines = relevantAreas.map(
+            (a) => `- ${a.location}：历史事故${a.accidents}起，死亡${a.fatalities}人，主因：${a.mainCause}，风险等级：${a.riskLevel}`
+          );
+          areaContext = `\n\n以下是相关路段的历史事故数据：\n${lines.join("\n")}`;
+        } else if (accident.highRiskAreas.length > 0) {
+          const top3 = accident.highRiskAreas.slice(0, 3);
+          const lines = top3.map(
+            (a) => `- ${a.location}：历史事故${a.accidents}起，死亡${a.fatalities}人，主因：${a.mainCause}`
+          );
+          areaContext = `\n\n以下是辖区高风险路段参考数据：\n${lines.join("\n")}`;
+        }
+      } catch { /* data not available */ }
+
       return `启动应急宣传响应，请根据以下预警信息快速生成应急宣传内容包。
 
 事件类型：${params.eventType}
@@ -306,7 +370,8 @@ ${accidentContent}`;
 内容要求：
 - 预警等级必须与输入一致，不得自行升降级
 - 安全提示必须实用可操作，避免空洞套话
-- 末尾标注"应急发布，请人工快速确认后发布"`;
+- 末尾标注"应急发布，请人工快速确认后发布"${areaContext}`;
+    }
 
     case "public-relations":
       return `我是一位市民，想咨询交通业务相关问题：${params.question}
@@ -682,7 +747,13 @@ export async function invokeSkill(
   if (mode === "llm") {
     rawResult = await callLLM(skillName, userMessage, params);
   } else {
-    rawResult = await callOpenClaw(userMessage);
+    // Instruct the agent to return full content inline — the web UI will render it.
+    // Override SKILL.md file-saving directives so content is not written to disk.
+    const webDirective =
+      "【重要】本次请求来自 Web 管理后台。请将生成的全部内容直接在回复中完整输出（使用 Markdown 格式），" +
+      "不要将内容保存到本地文件，不要创建或写入任何文件，不要提及文件保存路径。" +
+      "只需在回复中返回完整内容即可。\n\n";
+    rawResult = await callOpenClaw(webDirective + userMessage);
   }
 
   // content-reviewer needs structured ReviewResult for the frontend

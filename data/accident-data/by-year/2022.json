@@ -1,0 +1,315 @@
+{
+  "period": "2022年",
+  "generatedDate": "2026-02-23",
+  "region": "泰安高速公路辖区",
+  "overview": {
+    "totalAccidents": 2067,
+    "totalFatalities": 21,
+    "totalInjuries": 205,
+    "totalPropertyDamage": 88,
+    "yoyAccidentChange": -0.2221,
+    "yoyFatalityChange": 0
+  },
+  "monthlyTrend": [
+    {
+      "month": 1,
+      "accidents": 168,
+      "fatalities": 0,
+      "injuries": 19
+    },
+    {
+      "month": 2,
+      "accidents": 396,
+      "fatalities": 1,
+      "injuries": 35
+    },
+    {
+      "month": 3,
+      "accidents": 88,
+      "fatalities": 0,
+      "injuries": 8
+    },
+    {
+      "month": 4,
+      "accidents": 85,
+      "fatalities": 3,
+      "injuries": 5
+    },
+    {
+      "month": 5,
+      "accidents": 103,
+      "fatalities": 1,
+      "injuries": 14
+    },
+    {
+      "month": 6,
+      "accidents": 195,
+      "fatalities": 4,
+      "injuries": 17
+    },
+    {
+      "month": 7,
+      "accidents": 193,
+      "fatalities": 1,
+      "injuries": 13
+    },
+    {
+      "month": 8,
+      "accidents": 213,
+      "fatalities": 4,
+      "injuries": 48
+    },
+    {
+      "month": 9,
+      "accidents": 158,
+      "fatalities": 2,
+      "injuries": 17
+    },
+    {
+      "month": 10,
+      "accidents": 248,
+      "fatalities": 1,
+      "injuries": 17
+    },
+    {
+      "month": 11,
+      "accidents": 117,
+      "fatalities": 3,
+      "injuries": 9
+    },
+    {
+      "month": 12,
+      "accidents": 103,
+      "fatalities": 1,
+      "injuries": 3
+    }
+  ],
+  "byAccidentType": [
+    {
+      "type": "简易事故",
+      "count": 2038,
+      "percentage": 0.986,
+      "fatalities": 0
+    },
+    {
+      "type": "一般事故",
+      "count": 29,
+      "percentage": 0.014,
+      "fatalities": 21
+    }
+  ],
+  "byViolationType": [
+    {
+      "type": "未记录",
+      "count": 1142,
+      "percentage": 0.5525
+    },
+    {
+      "type": "未保持安全距离",
+      "count": 653,
+      "percentage": 0.3159,
+      "fatalities": 8
+    },
+    {
+      "type": "驾车时有其他妨碍安全驾驶的行为的",
+      "count": 106,
+      "percentage": 0.0513,
+      "fatalities": 3
+    },
+    {
+      "type": "违规变道",
+      "count": 98,
+      "percentage": 0.0474,
+      "fatalities": 1
+    },
+    {
+      "type": "操作不当",
+      "count": 30,
+      "percentage": 0.0145,
+      "fatalities": 1
+    },
+    {
+      "type": "违规倒车",
+      "count": 10,
+      "percentage": 0.0048
+    },
+    {
+      "type": "违规停车",
+      "count": 5,
+      "percentage": 0.0024
+    },
+    {
+      "type": "其他",
+      "count": 4,
+      "percentage": 0.0019,
+      "fatalities": 2
+    },
+    {
+      "type": "机动车载物行驶时遗洒、飘散载运物的",
+      "count": 2,
+      "percentage": 0.001
+    },
+    {
+      "type": "车辆故障(制动)",
+      "count": 2,
+      "percentage": 0.001
+    },
+    {
+      "type": "灯光使用不当",
+      "count": 2,
+      "percentage": 0.001
+    },
+    {
+      "type": "机动车在高速公路上发生故障或事故后，不按…",
+      "count": 2,
+      "percentage": 0.001
+    },
+    {
+      "type": "行人违规",
+      "count": 2,
+      "percentage": 0.001,
+      "fatalities": 2
+    },
+    {
+      "type": "低速行驶",
+      "count": 1,
+      "percentage": 0.0005
+    },
+    {
+      "type": "驾驶机件不符合技术标准的机动车的",
+      "count": 1,
+      "percentage": 0.0005
+    }
+  ],
+  "highRiskAreas": [
+    {
+      "location": "山东省泰安市东平县G",
+      "type": "高速公路",
+      "accidents": 572,
+      "fatalities": 0,
+      "mainCause": "未保持安全距离",
+      "riskLevel": "极高",
+      "seasonalPattern": "全年"
+    },
+    {
+      "location": "泰新",
+      "type": "高速公路",
+      "accidents": 226,
+      "fatalities": 0,
+      "mainCause": "未记录",
+      "riskLevel": "高",
+      "seasonalPattern": "全年"
+    },
+    {
+      "location": "G22",
+      "type": "高速公路",
+      "accidents": 117,
+      "fatalities": 0,
+      "mainCause": "未记录",
+      "riskLevel": "中",
+      "seasonalPattern": "全年"
+    },
+    {
+      "location": "山东省泰安市新泰市S",
+      "type": "高速公路",
+      "accidents": 74,
+      "fatalities": 0,
+      "mainCause": "未记录",
+      "riskLevel": "中",
+      "seasonalPattern": "全年"
+    },
+    {
+      "location": "山东省泰安市泰山区泰",
+      "type": "高速公路",
+      "accidents": 65,
+      "fatalities": 0,
+      "mainCause": "未记录",
+      "riskLevel": "中",
+      "seasonalPattern": "全年"
+    },
+    {
+      "location": "京台",
+      "type": "高速公路",
+      "accidents": 64,
+      "fatalities": 0,
+      "mainCause": "未记录",
+      "riskLevel": "中",
+      "seasonalPattern": "全年"
+    },
+    {
+      "location": "山东省泰安市岱岳区S",
+      "type": "高速公路",
+      "accidents": 59,
+      "fatalities": 0,
+      "mainCause": "未记录",
+      "riskLevel": "中",
+      "seasonalPattern": "全年"
+    },
+    {
+      "location": "S31",
+      "type": "高速公路",
+      "accidents": 55,
+      "fatalities": 0,
+      "mainCause": "未记录",
+      "riskLevel": "中",
+      "seasonalPattern": "全年"
+    },
+    {
+      "location": "山东省泰安市岱岳区G",
+      "type": "高速公路",
+      "accidents": 53,
+      "fatalities": 0,
+      "mainCause": "未记录",
+      "riskLevel": "中",
+      "seasonalPattern": "全年"
+    },
+    {
+      "location": "青兰",
+      "type": "高速公路",
+      "accidents": 52,
+      "fatalities": 0,
+      "mainCause": "未记录",
+      "riskLevel": "中",
+      "seasonalPattern": "全年"
+    }
+  ],
+  "highRiskGroups": [],
+  "weatherRelated": [],
+  "timeDistribution": [
+    {
+      "period": "下午(14-17时)",
+      "accidents": 442,
+      "fatalities": 0
+    },
+    {
+      "period": "午间(11-14时)",
+      "accidents": 425,
+      "fatalities": 2
+    },
+    {
+      "period": "上午(9-11时)",
+      "accidents": 345,
+      "fatalities": 5
+    },
+    {
+      "period": "晚高峰(17-20时)",
+      "accidents": 283,
+      "fatalities": 1
+    },
+    {
+      "period": "早高峰(6-9时)",
+      "accidents": 208,
+      "fatalities": 1
+    },
+    {
+      "period": "凌晨(0-6时)",
+      "accidents": 204,
+      "fatalities": 7
+    },
+    {
+      "period": "夜间(20-24时)",
+      "accidents": 160,
+      "fatalities": 5
+    }
+  ]
+}
