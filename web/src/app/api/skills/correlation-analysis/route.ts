@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { invokeSkill } from "@/lib/skill-router";
 
+export const dynamic = "force-dynamic";
+
 export async function POST() {
   try {
     const content = await invokeSkill("correlation-analysis", {});

@@ -34,6 +34,13 @@ export async function PUT(
     );
   }
 
+  if (stageIndex < 0 || stageIndex >= review.humanStages.length) {
+    return NextResponse.json(
+      { error: "stageIndex 超出范围" },
+      { status: 400 }
+    );
+  }
+
   const now = new Date().toISOString();
 
   // Update the specific human stage

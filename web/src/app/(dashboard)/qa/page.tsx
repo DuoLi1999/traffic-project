@@ -136,7 +136,7 @@ export default function QAPage() {
               </div>
 
               {/* Chat Area */}
-              <Card className="flex flex-col" style={{ height: "calc(100vh - 340px)" }}>
+              <Card className="flex flex-col h-[calc(100vh-340px)] min-h-[400px]">
                 <CardHeader className="pb-3 border-b">
                   <CardTitle className="flex items-center gap-2 text-base">
                     <MessageCircle className="h-5 w-5" />
@@ -171,7 +171,7 @@ export default function QAPage() {
                             : "bg-muted"
                         }`}
                       >
-                        <div className={`prose prose-sm max-w-none ${msg.role === "user" ? "prose-invert" : ""}`}>
+                        <div className={`ai-content-chat ${msg.role === "user" ? "prose-invert text-white [&_*]:text-inherit" : ""}`}>
                           <ReactMarkdown remarkPlugins={[remarkGfm]}>
                             {msg.content}
                           </ReactMarkdown>
@@ -240,7 +240,7 @@ export default function QAPage() {
                 </CardHeader>
                 {opinionReport && (
                   <CardContent>
-                    <div className="prose prose-sm max-w-none">
+                    <div className="ai-content">
                       <ReactMarkdown remarkPlugins={[remarkGfm]}>
                         {opinionReport}
                       </ReactMarkdown>

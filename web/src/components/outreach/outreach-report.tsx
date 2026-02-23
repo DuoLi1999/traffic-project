@@ -51,7 +51,7 @@ export function OutreachReport() {
       </CardHeader>
       {report && (
         <CardContent>
-          <div className="prose prose-sm max-w-none">
+          <div className="ai-content">
             <ReactMarkdown remarkPlugins={[remarkGfm]}>
               {report}
             </ReactMarkdown>

@@ -12,6 +12,9 @@ import type {
 const DATA_ROOT = path.join(process.cwd(), "..", "data");
 
 function readJSON<T>(filePath: string): T {
+  if (filePath.includes("..") || path.isAbsolute(filePath)) {
+    throw new Error("Invalid file path");
+  }
   const fullPath = path.join(DATA_ROOT, filePath);
   const raw = fs.readFileSync(fullPath, "utf-8");
   return JSON.parse(raw) as T;
@@ -27,6 +30,7 @@ export function getAccidentData(): AccidentData {
 }
 
 export function getAccidentDataByYear(year: number): AccidentData | null {
+  if (!Number.isInteger(year) || year < 1900 || year > 2100) return null;
   try {
     return readJSON<AccidentData>(`accident-data/by-year/${year}.json`);
   } catch {
@@ -81,15 +85,15 @@ export function searchMaterials(
     );
   }
 
-  return filtered.map((m) => {
-    const detail = getMaterialDetail(m.id);
-    return detail || ({ ...m, filename: "", source: "", description: "", location: "", date: "", usageCount: 0 } as MaterialDetail);
-  });
+  return filtered
+    .map((m) => getMaterialDetail(m.id))
+    .filter((detail): detail is MaterialDetail => detail !== null);
 }
 
 const TEMPLATE_ROOT = path.join(process.cwd(), "..", "templates");
 
 export function getTemplate(name: string): string {
+  if (name.includes("..") || path.isAbsolute(name)) return "";
   try {
     return fs.readFileSync(path.join(TEMPLATE_ROOT, name), "utf-8");
   } catch {

@@ -123,7 +123,7 @@ export default function AnalyticsPage() {
                 </CardHeader>
                 {correlationReport && (
                   <CardContent>
-                    <div className="prose prose-sm max-w-none">
+                    <div className="ai-content">
                       <ReactMarkdown remarkPlugins={[remarkGfm]}>
                         {correlationReport}
                       </ReactMarkdown>
@@ -167,7 +167,7 @@ export default function AnalyticsPage() {
           </CardHeader>
           {report && (
             <CardContent>
-              <div className="prose prose-sm max-w-none">
+              <div className="ai-content">
                 <ReactMarkdown remarkPlugins={[remarkGfm]}>
                   {report}
                 </ReactMarkdown>

@@ -267,7 +267,7 @@ export default function PlansPage() {
                     </div>
                   </CardHeader>
                   <CardContent>
-                    <div className="prose prose-sm max-w-none">
+                    <div className="ai-content">
                       <ReactMarkdown remarkPlugins={[remarkGfm]}>
                         {result}
                       </ReactMarkdown>
@@ -368,7 +368,7 @@ export default function PlansPage() {
                   />
                 ) : selectedVersion ? (
                   <div className="border rounded-lg p-4 max-h-[500px] overflow-y-auto">
-                    <div className="prose prose-sm max-w-none">
+                    <div className="ai-content">
                       <ReactMarkdown remarkPlugins={[remarkGfm]}>
                         {selectedVersion.content}
                       </ReactMarkdown>

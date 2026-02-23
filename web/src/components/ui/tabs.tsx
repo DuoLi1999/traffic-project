@@ -15,7 +15,7 @@ function TabsList({
   return (
     <div
       className={cn(
-        "inline-flex h-10 items-center justify-center rounded-xl bg-muted p-1 text-muted-foreground",
+        "inline-flex h-11 items-center gap-1 rounded-xl bg-muted p-1 text-muted-foreground",
         className
       )}
       {...props}
@@ -48,7 +48,7 @@ function TabsContent({
 }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
-      className={cn("mt-3 ring-offset-background", className)}
+      className={cn("mt-4 ring-offset-background", className)}
       {...props}
     />
   );

@@ -153,7 +153,7 @@ export default function EmergencyPage() {
                     <CardTitle>应急内容包</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="prose prose-sm max-w-none">
+                    <div className="ai-content">
                       <ReactMarkdown remarkPlugins={[remarkGfm]}>
                         {result}
                       </ReactMarkdown>
