@@ -90,13 +90,16 @@ const server = http.createServer((req, res) => {
           }
           const data = JSON.parse(stdout.slice(jsonStart));
 
-          if (data.status !== "ok") {
-            sendJSON(res, 502, { status: "error", error: `Agent status: ${data.status}` });
-            return;
-          }
+          // OpenClaw CLI outputs { payloads: [...] } directly
+          // or { status: "ok", result: { payloads: [...] } }
+          const payloads = data.payloads || data.result?.payloads;
+          const text = payloads?.[0]?.text;
 
-          const text = data.result?.payloads?.[0]?.text || JSON.stringify(data.result ?? data);
-          sendJSON(res, 200, { status: "ok", text });
+          if (text) {
+            sendJSON(res, 200, { status: "ok", text });
+          } else {
+            sendJSON(res, 200, { status: "ok", text: JSON.stringify(data) });
+          }
         } catch (parseErr) {
           sendJSON(res, 502, { status: "error", error: `Parse error: ${parseErr}` });
         }
