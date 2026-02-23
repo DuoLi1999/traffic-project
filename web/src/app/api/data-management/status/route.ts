@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
 
+export const dynamic = "force-dynamic";
+
 const PROJECT_ROOT = path.join(process.cwd(), "..");
 const DATA_ROOT = path.join(PROJECT_ROOT, "data");
 const REAL_DATA_ROOT = path.join(PROJECT_ROOT, "real-data");

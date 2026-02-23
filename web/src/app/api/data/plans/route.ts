@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { listItems, writeItem } from "@/lib/store";
 import type { PlanRecord, PlanTask, PlanVersion } from "@/lib/types";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   const plans = listItems<PlanRecord>("plans");
   plans.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());

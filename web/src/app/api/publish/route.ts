@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { listItems, writeItem } from "@/lib/store";
 import type { PublishJob } from "@/lib/types";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   const jobs = listItems<PublishJob>("publish");
   jobs.sort(

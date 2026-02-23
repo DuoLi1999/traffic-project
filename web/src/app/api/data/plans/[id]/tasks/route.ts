@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { queryItems, writeItem } from "@/lib/store";
 import type { PlanTask } from "@/lib/types";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(
   _request: Request,
   { params }: { params: { id: string } }

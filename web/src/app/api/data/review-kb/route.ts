@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { listItems, writeItem } from "@/lib/store";
 
+export const dynamic = "force-dynamic";
+
 interface KBEntry {
   id: string;
   category: string;

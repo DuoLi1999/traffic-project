@@ -4,6 +4,8 @@ import type { ReviewRecord, HumanReviewStage } from "@/lib/types";
 import { invokeSkill } from "@/lib/skill-router";
 import type { ReviewResult } from "@/lib/types";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const status = searchParams.get("status");

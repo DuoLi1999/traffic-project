@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { readItem, writeItem } from "@/lib/store";
 import type { ReviewRecord } from "@/lib/types";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(
   _request: Request,
   { params }: { params: { id: string } }
