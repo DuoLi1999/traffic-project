@@ -4,7 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { NAV_ITEMS } from "@/lib/constants";
-import { Shield } from "lucide-react";
+import { Shield, LogOut } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export function Sidebar() {
   const pathname = usePathname();
@@ -21,7 +22,9 @@ export function Sidebar() {
               <ul className="space-y-0.5">
                 {group.items.map((item) => {
                   const Icon = item.icon;
-                  const isActive = pathname.startsWith(item.href);
+                  const isActive = item.href === "/"
+                    ? pathname === "/"
+                    : pathname.startsWith(item.href);
                   return (
                     <li key={item.href}>
                       <Link
@@ -46,12 +49,16 @@ export function Sidebar() {
 
         <div className="border-t p-3">
           <div className="rounded-lg bg-blue-50 border border-blue-100 p-3">
-            <p className="text-xs font-semibold text-blue-700 mb-1">
-              系统状态
-            </p>
+            <div className="flex items-center gap-2 mb-1">
+              <div className="h-2 w-2 rounded-full bg-green-500" />
+              <p className="text-xs font-semibold text-blue-700">
+                系统运行正常
+              </p>
+            </div>
             <p className="text-xs text-gray-500">
               XX市公安局交警支队
             </p>
+            <p className="text-[10px] text-gray-400 mt-0.5">v1.0</p>
           </div>
         </div>
       </div>
@@ -60,28 +67,41 @@ export function Sidebar() {
 }
 
 export function Header() {
+  const router = useRouter();
+
+  async function handleLogout() {
+    await fetch("/api/auth/logout", { method: "POST" });
+    router.push("/login");
+    router.refresh();
+  }
+
   return (
     <header className="fixed top-0 left-0 right-0 z-40 h-[65px] border-b bg-white shadow-sm">
       <div className="flex h-full items-center justify-between px-6">
         <div className="flex items-center gap-3">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-700">
-            <Shield className="h-5 w-5 text-white" />
-          </div>
-          <div>
-            <h1 className="text-base font-bold text-gray-800 leading-tight">
-              交通安全宣传教育智能化平台
-            </h1>
-            <p className="text-[11px] text-gray-400">
-              Traffic Safety Education Platform
-            </p>
-          </div>
+          <Link href="/" className="flex items-center gap-3">
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-700">
+              <Shield className="h-5 w-5 text-white" />
+            </div>
+            <div>
+              <h1 className="text-base font-bold text-gray-800 leading-tight">
+                交通安全宣传教育智能化平台
+              </h1>
+              <p className="text-[11px] text-gray-400">
+                Traffic Safety Education Platform
+              </p>
+            </div>
+          </Link>
         </div>
 
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2 rounded-lg bg-gray-50 px-3 py-1.5">
-            <div className="h-2 w-2 rounded-full bg-green-500" />
-            <span className="text-xs text-gray-600">AI 服务正常</span>
-          </div>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={handleLogout}
+            className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs text-gray-500 hover:bg-gray-50 hover:text-gray-700 transition-colors"
+          >
+            <LogOut className="h-3.5 w-3.5" />
+            退出登录
+          </button>
         </div>
       </div>
     </header>

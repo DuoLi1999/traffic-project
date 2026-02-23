@@ -206,6 +206,123 @@ export interface QARequest {
   question: string;
 }
 
+export interface DocWriterRequest {
+  docType: "summary" | "report" | "briefing" | "plan" | "experience";
+  timePeriod?: string;
+  keyPoints?: string;
+  reference?: string;
+}
+
+// Plan management types
+export interface PlanRecord {
+  id: string;
+  month: string;
+  title: string;
+  content: string;
+  createdAt: string;
+  version: number;
+  status: "draft" | "active" | "archived";
+}
+
+export interface PlanTask {
+  id: string;
+  planId: string;
+  title: string;
+  description: string;
+  assignee: string;
+  status: "pending" | "in_progress" | "completed" | "overdue";
+  priority: "P0" | "P1" | "P2";
+  dueDate: string;
+  week: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface PlanVersion {
+  id: string;
+  planId: string;
+  version: number;
+  content: string;
+  changeNote: string;
+  createdAt: string;
+}
+
+// Human review workflow types
+export interface HumanReviewStage {
+  role: string;
+  reviewer: string;
+  action: "approve" | "reject" | "revise" | "pending";
+  comment: string;
+  timestamp: string;
+}
+
+export interface ReviewRecord {
+  id: string;
+  content: string;
+  platform: string;
+  aiResult: ReviewResult;
+  humanStages: HumanReviewStage[];
+  status: "pending_human" | "approved" | "rejected";
+  createdAt: string;
+  updatedAt: string;
+}
+
+// Courseware types
+export interface CoursewareRequest {
+  audience: string;
+  topic: string;
+  duration: string;
+  format: string;
+}
+
+// Publish types
+export interface PublishJob {
+  id: string;
+  content: string;
+  platforms: string[];
+  status: "draft" | "publishing" | "published" | "failed";
+  results: { platform: string; status: string; url?: string }[];
+  createdAt: string;
+}
+
+// Sentiment types
+export interface SentimentItem {
+  id: string;
+  title: string;
+  source: string;
+  sentiment: "positive" | "negative" | "neutral";
+  heat: number;
+  time: string;
+  summary: string;
+}
+
+export interface SentimentData {
+  period: string;
+  items: SentimentItem[];
+  distribution: { sentiment: string; count: number }[];
+  trend: { date: string; positive: number; negative: number; neutral: number }[];
+  hotWords: { word: string; count: number }[];
+  alerts: { level: string; title: string; description: string; time: string }[];
+}
+
+// Complaint/opinion types
+export interface ComplaintItem {
+  id: string;
+  category: string;
+  content: string;
+  source: string;
+  sentiment: string;
+  time: string;
+  status: string;
+}
+
+export interface ComplaintData {
+  period: string;
+  items: ComplaintItem[];
+  categoryStats: { category: string; count: number; percentage: number }[];
+  trendByMonth: { month: string; count: number }[];
+}
+
 // Chat types
 export interface ChatMessage {
   id: string;

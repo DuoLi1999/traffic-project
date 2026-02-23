@@ -2,14 +2,27 @@ import {
   BarChart3,
   FolderOpen,
   FileEdit,
+  FileText,
   CheckSquare,
   Calendar,
   Target,
   AlertTriangle,
   MessageCircle,
+  LayoutDashboard,
+  Image,
+  Send,
+  Radio,
+  Phone,
+  Settings,
 } from "lucide-react";
 
 export const NAV_ITEMS = [
+  {
+    group: "概览",
+    items: [
+      { label: "工作台", href: "/", icon: LayoutDashboard },
+    ],
+  },
   {
     group: "计划与素材",
     items: [
@@ -21,13 +34,17 @@ export const NAV_ITEMS = [
     group: "内容工作流",
     items: [
       { label: "内容生产", href: "/content", icon: FileEdit },
+      { label: "视觉内容", href: "/content/visual", icon: Image },
+      { label: "材料撰写", href: "/writing", icon: FileText },
       { label: "内容审核", href: "/content/review", icon: CheckSquare },
+      { label: "内容发布", href: "/content/publish", icon: Send },
     ],
   },
   {
     group: "监测与分析",
     items: [
       { label: "传播分析", href: "/analytics", icon: BarChart3 },
+      { label: "舆情监测", href: "/sentiment", icon: Radio },
       { label: "精准宣传", href: "/outreach", icon: Target },
     ],
   },
@@ -36,6 +53,13 @@ export const NAV_ITEMS = [
     items: [
       { label: "应急响应", href: "/emergency", icon: AlertTriangle },
       { label: "咨询服务", href: "/qa", icon: MessageCircle },
+      { label: "12345热线", href: "/hotline", icon: Phone },
+    ],
+  },
+  {
+    group: "系统管理",
+    items: [
+      { label: "权限管理", href: "/admin", icon: Settings },
     ],
   },
 ];

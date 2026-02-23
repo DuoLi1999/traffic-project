@@ -4,6 +4,10 @@ import {
   simulatePlanManager,
   simulateEmergencyResponse,
   simulateQA,
+  simulateDocWriter,
+  simulateCourseware,
+  simulateCorrelationAnalysis,
+  simulateOpinionAnalysis,
 } from "./skills";
 import { callLLM } from "./llm";
 import { callOpenClaw } from "./openclaw";
@@ -315,6 +319,96 @@ ${accidentContent}`;
 - 引用法律法规请标注具体条款
 - 末尾提示"以上信息仅供参考，具体政策以当地规定为准"`;
 
+    case "doc-writer": {
+      const docTypeNames: Record<string, string> = {
+        summary: "工作总结",
+        report: "汇报材料",
+        briefing: "情况通报",
+        plan: "工作方案",
+        experience: "经验交流",
+      };
+      const docTypeName = docTypeNames[params.docType as string] || "工作材料";
+      const tp = params.timePeriod || "近期";
+      const kp = params.keyPoints || "交通安全宣传教育工作";
+      const ref = params.reference ? `\n\n参考材料：\n${params.reference}` : "";
+
+      let dataContext = "";
+      try {
+        const analytics = getAllAnalytics();
+        if (analytics.length > 0) {
+          dataContext += `\n\n以下是传播效果数据，可作为材料中的数据支撑：\n\n${serializeAnalytics(analytics)}`;
+        }
+      } catch { /* data not available */ }
+
+      try {
+        const accident = getAccidentData();
+        dataContext += `\n\n以下是事故数据，可作为形势分析的数据支撑：\n\n${serializeAccidentData(accident)}`;
+      } catch { /* data not available */ }
+
+      return `请撰写一份${docTypeName}。
+
+材料类型：${docTypeName}
+时间范围：${tp}
+重点内容：${kp}${ref}
+
+要求：
+- 严格遵循公文格式规范，使用"一、（一）、1."三级标题体系
+- 语言庄重简洁，避免口语化和网络用语
+- 引用数据必须来自提供的真实数据，不得编造
+- 成绩实事求是，问题客观反映
+- 结尾包含落款（单位、日期）
+- 篇幅适当，${docTypeName === "情况通报" ? "1000-2000字" : docTypeName === "工作总结" ? "1500-3000字" : "2000-4000字"}${dataContext}`;
+    }
+
+    case "courseware": {
+      return `请为"${params.audience}"活动生成一份交通安全宣讲课件大纲。
+
+主题：${params.topic}
+受众：${params.audience}
+时长：${params.duration}分钟
+格式：${params.format}
+
+要求：
+- 包含封面信息、受众分析、课程结构、每页PPT内容提要
+- 设计互动环节和知识测验题
+- 配套材料清单
+- 语言风格适配目标受众`;
+    }
+
+    case "correlation-analysis": {
+      let dataContent = "";
+      try {
+        const analytics = getAllAnalytics();
+        dataContent += serializeAnalytics(analytics);
+      } catch { /* data not available */ }
+      try {
+        const accident = getAccidentData();
+        dataContent += "\n\n" + serializeAccidentData(accident);
+      } catch { /* data not available */ }
+
+      return `请基于以下传播数据和事故数据，分析宣传效果与违法/事故率的关联关系。
+
+要求：
+- 按月对比宣传曝光量与违法率、事故率变化
+- 计算相关性系数
+- 分专题评估宣传效果
+- 给出优化建议
+
+数据：
+${dataContent}`;
+    }
+
+    case "opinion-analysis": {
+      return `请基于投诉建议数据，生成民意分析报告。
+
+要求：
+- 投诉建议总体概况
+- 分类统计和热点问题分析
+- 情感分析
+- 趋势判断
+- 宣传建议`;
+    }
+
     default:
       return JSON.stringify(params);
   }
@@ -447,6 +541,28 @@ ${accident.highRiskGroups
       return simulateQA({
         question: params.question as string,
       });
+
+    case "doc-writer":
+      return simulateDocWriter({
+        docType: params.docType as "summary" | "report" | "briefing" | "plan" | "experience",
+        timePeriod: params.timePeriod as string | undefined,
+        keyPoints: params.keyPoints as string | undefined,
+        reference: params.reference as string | undefined,
+      });
+
+    case "courseware":
+      return simulateCourseware({
+        audience: params.audience as string,
+        topic: params.topic as string,
+        duration: params.duration as string,
+        format: params.format as string,
+      });
+
+    case "correlation-analysis":
+      return simulateCorrelationAnalysis();
+
+    case "opinion-analysis":
+      return simulateOpinionAnalysis();
 
     default:
       throw new Error(`Unknown skill: ${skillName}`);
