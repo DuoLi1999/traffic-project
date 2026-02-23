@@ -1,11 +1,5 @@
 import { execFile } from "child_process";
 
-const AUTH_TOKEN = process.env.OPENCLAW_AUTH_TOKEN || "";
-const OPENCLAW_BIN = process.env.OPENCLAW_BIN || "openclaw";
-const AGENT_TIMEOUT = process.env.OPENCLAW_TIMEOUT || "120";
-const GATEWAY_URL = process.env.OPENCLAW_GATEWAY_URL || "";
-const PROXY_TOKEN = process.env.OPENCLAW_PROXY_TOKEN || "";
-
 interface OpenClawResult {
   status: string;
   result?: {
@@ -14,8 +8,9 @@ interface OpenClawResult {
 }
 
 export async function callOpenClaw(userMessage: string): Promise<string> {
+  const gatewayUrl = process.env.OPENCLAW_GATEWAY_URL || "";
   // Remote HTTP proxy mode (for Vercel / cloud deployment)
-  if (GATEWAY_URL) {
+  if (gatewayUrl) {
     return callOpenClawHTTP(userMessage);
   }
   // Local CLI mode (for local development)
@@ -23,15 +18,18 @@ export async function callOpenClaw(userMessage: string): Promise<string> {
 }
 
 async function callOpenClawHTTP(userMessage: string): Promise<string> {
-  const timeout = parseInt(AGENT_TIMEOUT, 10);
+  const gatewayUrl = process.env.OPENCLAW_GATEWAY_URL || "";
+  const proxyToken = process.env.OPENCLAW_PROXY_TOKEN || "";
+  const agentTimeout = process.env.OPENCLAW_TIMEOUT || "120";
+  const timeout = parseInt(agentTimeout, 10);
   const headers: Record<string, string> = { "Content-Type": "application/json" };
-  if (PROXY_TOKEN) headers["Authorization"] = `Bearer ${PROXY_TOKEN}`;
+  if (proxyToken) headers["Authorization"] = `Bearer ${proxyToken}`;
 
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), (timeout + 60) * 1000);
 
   try {
-    const res = await fetch(`${GATEWAY_URL}/api/agent`, {
+    const res = await fetch(`${gatewayUrl}/api/agent`, {
       method: "POST",
       headers,
       body: JSON.stringify({ message: userMessage, timeout }),
@@ -51,24 +49,27 @@ async function callOpenClawHTTP(userMessage: string): Promise<string> {
 }
 
 function callOpenClawCLI(userMessage: string): Promise<string> {
+  const openclawBin = process.env.OPENCLAW_BIN || "openclaw";
+  const authToken = process.env.OPENCLAW_AUTH_TOKEN || "";
+  const agentTimeout = process.env.OPENCLAW_TIMEOUT || "120";
   const args = [
     "agent",
     "--agent", "main",
     "--message", userMessage,
     "--json",
-    "--timeout", AGENT_TIMEOUT,
+    "--timeout", agentTimeout,
   ];
 
-  const env = { ...process.env, OPENCLAW_GATEWAY_TOKEN: AUTH_TOKEN || undefined };
+  const env = { ...process.env, OPENCLAW_GATEWAY_TOKEN: authToken || undefined };
 
   return new Promise<string>((resolve, reject) => {
     execFile(
-      OPENCLAW_BIN,
+      openclawBin,
       args,
       {
         env,
         maxBuffer: 10 * 1024 * 1024,
-        timeout: (parseInt(AGENT_TIMEOUT, 10) + 30) * 1000,
+        timeout: (parseInt(agentTimeout, 10) + 30) * 1000,
       },
       (error, stdout, stderr) => {
         if (error) {
